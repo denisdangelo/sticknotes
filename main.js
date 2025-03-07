@@ -2,12 +2,19 @@ console.log("Electron - Processo principal")
 
 
 //importação dos recursos do framework - app se refere a aplicação e browserWindow e a criação da janela
-const { app, BrowserWindow } = require('electron/main')
+//nativeTheme (definir tema claro ou escuro)
+//Menu (definir menu personalizado)
+//shell acessar links externos no navegador padrão (janela)
+const { app, BrowserWindow, nativeTheme, Menu, shell} = require('electron/main')
 
 //janela principal
 let win
 const createWindow = () => {
-    win = new BrowserWindow({ //BrowserWindow é uma classe modelo do Electron
+  //definindo o tema claro ou escuro para a janela
+  nativeTheme.themeSource = 'dark'
+
+  //
+  win = new BrowserWindow({ //BrowserWindow é uma classe modelo do Electron
     width: 1010,
     height: 720,
     //frame: false, - tira todas as informações da janela 
@@ -18,7 +25,35 @@ const createWindow = () => {
 
   })
 
+  //carregar o menu personalizado
+  //Atenção! ANtes importar o recurso Menu
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+
   win.loadFile('./src/views/index.html') //aqui deve ir o caminho para o index.html - win.loadFile - carrega o doc html na janela
+}
+//para criar uma nova janela, sempre carregar BrowserWindow
+//Janela Sobre
+let about
+function aboutWindow() {
+  nativeTheme.themeSource= 'light'
+  //obter a janela principal (tecnica da janela modal)
+  const mainWindow = BrowserWindow.getFocusedWindow()
+  //validação (se existe a janela principal)
+  if(mainWindow){
+    about = new BrowserWindow({
+      width: 320,
+      height: 280,
+      autoHideMenuBar: true,
+      resizable: false,
+      minimizable: false,
+      //estabelecer uma relação hierarquica entre janelas
+      parent: mainWindow, //janela pai
+      //criar uma janela modal (So retorna a janela pai quando a janela filho é encerrada)
+      modal: true
+    })
+  }
+  
+  about.loadFile('./src/views/sobre.html')
 }
 
 //inicialização da aplicação (usa .them, ou seja é um assincronismo)
@@ -42,3 +77,65 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+
+//Reduzir a verbosidade de logs não criticos (devtools)
+app.commandLine.appendSwitch('log-level','3')
+
+//tempalte do menu
+const template = [
+  {
+    label: 'Notas',
+    submenu: [
+      {
+        label: 'Criar Nota',
+        accelerator:'Ctrl+N'
+      },
+      {
+        type:'separator'
+      },
+      {
+        label: 'Sair',
+        accelerator: 'Alt+F4',
+        click: () => app.quit()
+      },
+    ]
+  },
+  {
+    label: 'Ferramentas',
+    submenu: [
+      {
+        label: 'Aplicar Zoom',
+        role: 'zoomIn'
+      },
+      {
+        label: 'Reduzir',
+        role: 'zoomOut'
+      },
+      {
+        label: 'Restaurar o zoom Padrão',
+        role: 'resetZoom'
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label:'DevTools',
+        role:'toggleDevTools'
+      }
+    ]
+  },
+  {
+    label: 'Ajuda',
+    submenu: [
+      {
+        label: 'Repositório',
+        click: () => shell.openExternal('https://github.com/denisdangelo/sticknotes')
+    },
+    {
+      label: 'Sobre',
+      click:() => aboutWindow()
+    }
+    ]
+  
+  }
+]
