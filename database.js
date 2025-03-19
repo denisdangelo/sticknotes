@@ -4,7 +4,10 @@
  */
 
 //importaçãop do mongoose
+//não esquecer de instalar o modulo npm i mongoose
 const mongoose = require('mongoose')
+
+
 
 //configuração do banco de dados
 
