@@ -62,11 +62,50 @@ function aboutWindow() {
       //estabelecer uma relação hierarquica entre janelas
       parent: mainWindow, //janela pai
       //criar uma janela modal (So retorna a janela pai quando a janela filho é encerrada)
-      modal: true
+      modal: true,
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js')
+      }
     })
   }
   
   about.loadFile('./src/views/sobre.html')
+   //recebimento da mensagem de renderização da tela sobre sobre para fechar a janela usando o botão 'OK'
+   ipcMain.on('about-exit', () => {
+    //validação (se existir a janela e ela não estiver destruida, fechada)
+    if (about && !about.isDestroyed()){
+      about.close() //fechar a janela
+    }
+   
+
+  })
+}
+
+//janela note
+let note
+function noteWindow() {
+  nativeTheme.themeSource = 'light'
+  // obter a janela principal
+  const mainWindow = BrowserWindow.getFocusedWindow()
+  // validação (se existir a janela principal)
+  if (mainWindow) {
+    note = new BrowserWindow({
+      width: 320,
+      height: 230,
+      autoHideMenuBar: true,
+      resizable: false,
+      minimizable: false,
+      //estabelecer uma relação hierarquica entre janelas
+      parent: mainWindow,
+      // criar uma janela modal (só retorna a principal quando encerrada)
+      modal: true,
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js')
+      }
+    })
+  }
+
+  note.loadFile('./src/views/nota.html')
 }
 
 //inicialização da aplicação (usa .them, ou seja é um assincronismo)
@@ -123,7 +162,8 @@ const template = [
     submenu: [
       {
         label: 'Criar Nota',
-        accelerator:'Ctrl+N'
+        accelerator:'Ctrl+N',
+        click: () => noteWindow()
       },
       {
         type:'separator'
