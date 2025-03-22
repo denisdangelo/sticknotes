@@ -6,14 +6,14 @@ console.log("Electron - Processo principal")
 //Menu (definir menu personalizado)
 //shell acessar links externos no navegador padrão (janela)
 //ipcMain permite estabelecer uma comunicação entre processos (IPC) main.js <--> renderer.js (comunicação em duas vias)
-const { app, BrowserWindow, nativeTheme, Menu, shell, ipcMain} = require('electron/main')
+const { app, BrowserWindow, nativeTheme, Menu, shell, ipcMain } = require('electron/main')
 
 
 // Ativação do preload.js (importtação do path)
 const path = require('node:path')
 
 //importação dos metodos conectar e desconectar
-const {conectar, desconectar} = require('./database.js')
+const { conectar, desconectar } = require('./database.js')
 
 
 //janela principal
@@ -48,11 +48,11 @@ const createWindow = () => {
 //Janela Sobre
 let about
 function aboutWindow() {
-  nativeTheme.themeSource= 'light'
+  nativeTheme.themeSource = 'light'
   //obter a janela principal (tecnica da janela modal)
   const mainWindow = BrowserWindow.getFocusedWindow()
   //validação (se existe a janela principal)
-  if(mainWindow){
+  if (mainWindow) {
     about = new BrowserWindow({
       width: 320,
       height: 280,
@@ -68,15 +68,15 @@ function aboutWindow() {
       }
     })
   }
-  
+
   about.loadFile('./src/views/sobre.html')
-   //recebimento da mensagem de renderização da tela sobre sobre para fechar a janela usando o botão 'OK'
-   ipcMain.on('about-exit', () => {
+  //recebimento da mensagem de renderização da tela sobre sobre para fechar a janela usando o botão 'OK'
+  ipcMain.on('about-exit', () => {
     //validação (se existir a janela e ela não estiver destruida, fechada)
-    if (about && !about.isDestroyed()){
+    if (about && !about.isDestroyed()) {
       about.close() //fechar a janela
     }
-   
+
 
   })
 }
@@ -120,14 +120,17 @@ app.whenReady().then(() => {
   //db-connect (rótulo da mensagem)
   ipcMain.on('db-connect', async (event) => {
     //a linha abaixo estabelece uma conexão com o banco de dados
-    await conectar()
-    // enviar ao renderizador uma mensagem para trocar a imagem do icone de status do banco de dados (criar um delay de 0.5 ou 1s para sincronização com a nuvem)
-    setTimeout(() => {
-      //enviar ao renderizador a mensagem "conectado"
-      //db-status (IPC - comunicação entre processos - preload.js)
-      //.replay encaminha mensagem 
-      event.reply('db-status', "conectado")
-    }, 500)
+
+    const conectado = await conectar()
+    if (conectado) {
+      // enviar ao renderizador uma mensagem para trocar a imagem do icone de status do banco de dados (criar um delay de 0.5 ou 1s para sincronização com a nuvem)
+      setTimeout(() => {
+        //enviar ao renderizador a mensagem "conectado"
+        //db-status (IPC - comunicação entre processos - preload.js)
+        //.replay encaminha mensagem 
+        event.reply('db-status', "conectado")
+      }, 500)
+    }
   })
 
   // só ativa a janela se nenhuma outra estiver ativa
@@ -153,7 +156,7 @@ app.on('before-quit', async () => {
 })
 
 //Reduzir a verbosidade de logs não criticos (devtools)
-app.commandLine.appendSwitch('log-level','3')
+app.commandLine.appendSwitch('log-level', '3')
 
 //tempalte do menu
 const template = [
@@ -162,11 +165,11 @@ const template = [
     submenu: [
       {
         label: 'Criar Nota',
-        accelerator:'Ctrl+N',
+        accelerator: 'Ctrl+N',
         click: () => noteWindow()
       },
       {
-        type:'separator'
+        type: 'separator'
       },
       {
         label: 'Sair',
@@ -198,8 +201,8 @@ const template = [
         role: 'reload'
       },
       {
-        label:'DevTools',
-        role:'toggleDevTools'
+        label: 'DevTools',
+        role: 'toggleDevTools'
       }
     ]
   },
@@ -209,12 +212,12 @@ const template = [
       {
         label: 'Repositório',
         click: () => shell.openExternal('https://github.com/denisdangelo/sticknotes')
-    },
-    {
-      label: 'Sobre',
-      click:() => aboutWindow()
-    }
+      },
+      {
+        label: 'Sobre',
+        click: () => aboutWindow()
+      }
     ]
-  
+
   }
 ]
