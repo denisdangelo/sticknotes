@@ -24,6 +24,8 @@ document.getElementById('dataAtual').innerHTML = obterData()
 //uso da api definida no arquivo preload.js
 //event no arquivo main e message no preload.js
 api.dbStatus((event, message)=>{
+    //teste de recebimento da mensagem
+    console.log(message)
     if (message === "conectado") {
         document.getElementById('iconeDB').src = "../public/img/dbon.png"
     } else {

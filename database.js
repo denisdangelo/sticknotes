@@ -13,7 +13,7 @@ const mongoose = require('mongoose')
 
 //ao final da url definir o nome do banco de dados
 //Exemplo 'mongodb+srv://admin:123Senac@cluster0.zbct0.mongodb.net/dbclientes'
-const url = 'mongodb+srv://admin:123Senac@cluster0.zbct0.mongodb.net/dbnotes' //ip ou link, autenticação, nome do banco
+const url = 'mongodb+srv://admin:123Senac@cluster0.zbct0.mongodb.net/dbsticknotes' //ip ou link, autenticação, nome do banco
 
 //validação (evitar a abertura de várias conexões)
 let conectado = false
