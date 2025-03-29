@@ -20,7 +20,7 @@ ipcRenderer.send('db-connect')
 contextBridge.exposeInMainWorld('api', {
     dbStatus: (message) => ipcRenderer.on('db-status', message), // .on recebe db-status sintoniza ipc Renderer é o arquivo renderer do JS
     aboutExit: () => ipcRenderer.send('about-exit'), //.send está enviando
-    createNote: (stickyNote) => ipcRenderer.send('create-note', stickyNote),
+    createNote: (stickNote) => ipcRenderer.send('create-note', stickNote),
     //mandar um argumento vazio
     resetForm: (args) => ipcRenderer.on('reset-form', args)
 })

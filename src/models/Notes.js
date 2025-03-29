@@ -6,6 +6,7 @@
 // importação dos recursos do moongose
 const {model, Schema} = require('mongoose')
 
+
 //criação da estrutura da criação
 const noteSchema = new Schema({
     texto: {

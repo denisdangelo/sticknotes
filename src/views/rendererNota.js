@@ -29,14 +29,16 @@ frmNote.addEventListener('submit', async (event) => {
     // evitar o comportamento padrão (recarregar a página)
     event.preventDefault()
     // IMPORTANTE! (teste de recebimento dos dados do form - Passo 1)
-    console.log(note.value, color.value)
+    console.log(note.value, color.value,)
     //criar um objeto para enviar ao main os dados da nota
-    const stickyNote = {
+    const stickNote = {
         textNote: note.value,
         colorNote: color.value
     }
+    //teste de comunicação envio
+    console.log('Enviando para main process:', stickNote)
     // Enviar o objeto para o main (Passo 2: fluxo)
-    api.createNote(stickyNote)
+    api.createNote(stickNote)
 })
 
 // == Fim - CRUD Create ============================================

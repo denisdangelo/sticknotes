@@ -96,8 +96,8 @@ function noteWindow() {
       width: 320,
       height: 230,
       autoHideMenuBar: true,
-      resizable: false,
-      minimizable: false,
+      //resizable: false,
+      //minimizable: false,
       //estabelecer uma relação hierarquica entre janelas
       parent: mainWindow,
       // criar uma janela modal (só retorna a principal quando encerrada)
@@ -230,14 +230,14 @@ const template = [
 
 
 // Recebimento do objeto que contem os dados da nota
-ipcMain.on('create-note', async(event, stickyNote) => {
+ipcMain.on('create-note', async(event, stickNote) => {
   //IMPORTANTE! Teste de recebimento do objeto - Passo 2
-  console.log(stickyNote)
+  console.log(stickNote)
   //Criar uma nova estrutura de dados para salvar no banco
   //ATENÇÃO!!! Os atributos da estrutura precisam ser identicos ao modelo e os valores são obtidos através do objeto StickNotes
   const newNote = noteModel({
-    texto: stickyNote.textNote,
-    cor: stickyNote.colorNote
+    texto: stickNote.textNote,
+    cor: stickNote.colorNote
   })
   // Salvar a nota no bancod e dados (Passo 3 - fluxo)
   newNote.save()
