@@ -230,10 +230,13 @@ const template = [
 
 
 // Recebimento do objeto que contem os dados da nota
+//sempre que trabalhar com banco de dados usar o trycatch para tratamento de excessão
 ipcMain.on('create-note', async(event, stickNote) => {
   //IMPORTANTE! Teste de recebimento do objeto - Passo 2
   console.log(stickNote)
-  //Criar uma nova estrutura de dados para salvar no banco
+  //uso do trycathc para tratamento de excessões
+  try {
+    //Criar uma nova estrutura de dados para salvar no banco
   //ATENÇÃO!!! Os atributos da estrutura precisam ser identicos ao modelo e os valores são obtidos através do objeto StickNotes
   const newNote = noteModel({
     texto: stickNote.textNote,
@@ -243,6 +246,10 @@ ipcMain.on('create-note', async(event, stickNote) => {
   newNote.save()
   //enviar ao renderizador um pedido para limpar os campos e setar o formulario com os padrões originais (foco no texto usando o preload js[event relaciona ao event la de cima do ipcMain]
   event.reply('reset-form')
+  } catch (error) {
+    console.log(error)
+  }
+  
  })
 
 
