@@ -6,7 +6,7 @@ console.log("Electron - Processo principal")
 //Menu (definir menu personalizado)
 //shell acessar links externos no navegador padrão (janela)
 //ipcMain permite estabelecer uma comunicação entre processos (IPC) main.js <--> renderer.js (comunicação em duas vias)
-const { app, BrowserWindow, nativeTheme, Menu, shell, ipcMain } = require('electron/main')
+const { app, BrowserWindow, nativeTheme, Menu, shell, ipcMain, dialog } = require('electron/main')
 
 
 // Ativação do preload.js (importtação do path)
