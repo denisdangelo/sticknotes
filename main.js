@@ -255,3 +255,26 @@ ipcMain.on('create-note', async(event, stickNote) => {
 
 // == Fim - CRUD Create ============================================
 // =================================================================
+
+// ======= - CRUD READ ============================================
+// =================================================================
+
+//Passo 2: Receber do renderer o pedido para listar as notas e fazer a busca no banco de dados listNotes:()
+ipcMain.on('list-notes', async (event) => {
+  console.log("teste IPC [list-notes]") //teste para saber se o main está recebendo 'list-note'
+  //passo 3: Obter do banco a listagem de notas cadastradas
+  try {
+    const notes = await noteModel.find()
+    console.log(notes) //teste do passo 3
+    //passo 4 envar ao renderer a listagem das notas
+    //obs: IPC manda String e o banco é em JSON - é necessário uma conversão usando JSON.stringify
+    //event.reply() resposta a solicitação específica para a pagina solicitante
+    event.reply ('render-notes', JSON.stringify(notes))
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+// == Fim - CRUD READ ============================================
+// =================================================================
+

@@ -18,6 +18,9 @@ let frmNote = document.getElementById('frmNote')
 let note = document.getElementById('inputNote')
 let color = document.getElementById('selectColor')
 
+// passo 1 mandar uma mnesagem para o preload
+
+
 // =================================================================
 // == CRUD Create ==================================================
 
@@ -43,6 +46,9 @@ frmNote.addEventListener('submit', async (event) => {
 
 // == Fim - CRUD Create ============================================
 // =================================================================
+
+// 
+
 
 // == reset form (resetar o formulário) ============================
 // =================================================================
