@@ -6,8 +6,32 @@
     src: url("../Fredoka/Fredoka-VariableFont_wdth\,wght.ttf"); /* caminho para o arquivo .ttf */
 }
 
+/* variáveis para as cores das notas */
+:root {
+    --amarelo: #fff68f;
+    --azul: #add8e6;
+    --verde: #90ee90;
+    --rosa: #ffb6c1;
+    --laranja: #ffa07a;
+    --cinza: #6c757d;
+    --footer: #f3f3f3;    
+}
+
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: "Fredoka"; /* uso da fonte importada */
+    font-family: "Fredoka";
+    font-size: 1em;
+}
+
+.container {
+    padding: 15px;
 }
 
 /** Rodapé **/

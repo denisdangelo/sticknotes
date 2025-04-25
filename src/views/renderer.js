@@ -41,6 +41,9 @@ api.dbStatus((event, message)=>{
     }
 })
 
+
+//enviar ao main um pedido ara conectar com o banco de daods quando a janela principal for inicializado 
+api.dbConnect()
 // =================================================================
 // == CRUD READ ====================================================
     //passo 1: Emviar ao Main um edido para listar as notas
@@ -69,3 +72,13 @@ api.dbStatus((event, message)=>{
 
 // =================================================================
 // == FIM CRUD READ ================================================
+
+// =================================================================
+// == Atualização das notas ========================================
+
+api.mainReload((args) => {
+    location.reload() //reinicia a pagina
+})
+
+// =================================================================
+// == Atualização das notas - FIM ========================================

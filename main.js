@@ -201,7 +201,16 @@ const template = [
       },
       {
         label: 'Recarregar',
-        role: 'reload'
+        click: () => {
+          if (win && !win.isDestroyed()) {
+            win.reload(); // recarrega a janela manualmente
+            // envia os eventos customizados
+            win.webContents.send('main-reload');
+            setTimeout(() => {
+              win.webContents.send('db-status', 'conectado');
+            }, 200);
+          }
+        }
       },
       {
         label: 'DevTools',
@@ -275,6 +284,17 @@ ipcMain.on('list-notes', async (event) => {
   }
 })
 
+//artualização das notas na janela principal
+ipcMain.on('update-list' , () => {
+  //validação (se a janela principal existir e não )
+  if (win && !win.isDestroyed()) //validação do electron para não quebrar o app
+    //encviar ao renderer.js um pedido para recarregar a página
+    win.webContents.send('main-reload')
+    //encviar novamente um pedido para troca do icone de status
+    setTimeout(() => {
+      win.webContents.send('db-status', "conectado")
+    }, 200)
+})
 // == Fim - CRUD READ ============================================
 // =================================================================
 
