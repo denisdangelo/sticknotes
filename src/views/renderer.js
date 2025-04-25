@@ -61,6 +61,7 @@ api.dbConnect()
             list.innerHTML += `
             <br>
             <li>
+                <p onclick = "deleteNote('${n._id}')" id= "x">X</p>
                 <p>${n._id}</p>
                 <p>${n.texto}</p>
                 <p>${n.cor}</p>
@@ -82,3 +83,14 @@ api.mainReload((args) => {
 
 // =================================================================
 // == Atualização das notas - FIM ========================================
+
+// =================================================================
+// == CRUD Delete ==================================================
+function deleteNote(id){
+    console.log(id) //passo 1 receber o id da nota a ser excluida
+    api.deleteNote(id) //passo 2 enviar o id para o main
+}
+
+
+// =================================================================
+// == FIM CRUD Delete ================================================

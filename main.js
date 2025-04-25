@@ -6,6 +6,7 @@ console.log("Electron - Processo principal")
 //Menu (definir menu personalizado)
 //shell acessar links externos no navegador padrão (janela)
 //ipcMain permite estabelecer uma comunicação entre processos (IPC) main.js <--> renderer.js (comunicação em duas vias)
+//dialog caixas de mensagens
 const { app, BrowserWindow, nativeTheme, Menu, shell, ipcMain, dialog } = require('electron/main')
 
 
@@ -201,16 +202,7 @@ const template = [
       },
       {
         label: 'Recarregar',
-        click: () => {
-          if (win && !win.isDestroyed()) {
-            win.reload(); // recarrega a janela manualmente
-            // envia os eventos customizados
-            win.webContents.send('main-reload');
-            setTimeout(() => {
-              win.webContents.send('db-status', 'conectado');
-            }, 200);
-          }
-        }
+        click: () => updateList()
       },
       {
         label: 'DevTools',
@@ -284,17 +276,60 @@ ipcMain.on('list-notes', async (event) => {
   }
 })
 
-//artualização das notas na janela principal
-ipcMain.on('update-list' , () => {
-  //validação (se a janela principal existir e não )
-  if (win && !win.isDestroyed()) //validação do electron para não quebrar o app
-    //encviar ao renderer.js um pedido para recarregar a página
-    win.webContents.send('main-reload')
-    //encviar novamente um pedido para troca do icone de status
-    setTimeout(() => {
-      win.webContents.send('db-status', "conectado")
-    }, 200)
-})
+
 // == Fim - CRUD READ ============================================
 // =================================================================
 
+
+//===================================================================
+//== ATUALIZAÇÂO DO ICONE DB LISTA DE NOTAS =========================
+
+//atualização das notas na janela principal
+ipcMain.on('update-list' , () => {
+  updateList()
+})
+
+function updateList(){
+//validação (se a janela principal existir e não )
+if (win && !win.isDestroyed()) //validação do electron para não quebrar o app
+//encviar ao renderer.js um pedido para recarregar a página
+win.webContents.send('main-reload')
+//encviar novamente um pedido para troca do icone de status
+setTimeout(() => {
+  win.webContents.send('db-status', "conectado")
+}, 200)
+}
+
+//===================================================================
+//== FIM - ATUALIZAÇÂO DO ICONE DB LISTA DE NOTAS ===================
+
+
+
+// =================================================================
+// == CRUD Delete ==================================================
+ipcMain.on('delete-note', async (event, id) => {
+  console.log(id) //teste do passo 2 - receber o ID
+  //excluir o registro do banco (passo 3) 
+  //IMPORTANTE confirmar antes da excluão
+  //response 
+  //win é a janela principal
+  const  response  = await dialog.showMessageBox(win, { //
+    type: 'warning',
+    title: 'Atenção!',
+    message: 'Tem certeza que deseja excluir esta nota?\n Esta ação não podera ser desfeita',
+    buttons: ['Cancelar' , 'Excluir'] //isso é um vetor e Cancelar está no indice 0
+  })
+  //vou manter o response como parametro e o .response como valor de forma didática
+  if (response.response === 1) {
+  try {
+      const deleteNote = await noteModel.findByIdAndDelete(id)
+      updateList()
+    } catch (error) {
+    console.log(error)
+  }
+}
+})
+
+
+// =================================================================
+// == FIM CRUD Delete ================================================
