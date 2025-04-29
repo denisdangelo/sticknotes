@@ -34,6 +34,17 @@ body {
     padding: 15px;
 }
 
+/* Botões */
+button {
+    padding: 5px 15px;
+    border: 1px solid var(--cinza);
+    border-radius: 5px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+}
+
 /** Rodapé **/
 footer{
     width: 100%;
@@ -49,4 +60,60 @@ footer{
 footer .p  {
     color: #fff;
     font-size: 1.25em;
+}
+
+/* Janela Nova nota */
+.novaNota {
+    display: flex;
+    flex-direction: column;
+}
+
+.novaNota input {
+    width: 355px;
+    padding: 10px;
+    margin: 10px 0px 20px 0px;
+    border: 1px solid var(--cinza);
+    border-radius: 5px;
+}
+
+.novaNota select {
+    margin-top: 10px;
+    width: 150px;
+    padding: 7px;
+    border: 1px solid var(--cinza);
+    border-radius: 5px;
+}
+
+/* Notas */
+#code,
+#color {
+    display: none;
+}
+
+.container ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 192px;
+    height: 145px;
+    margin: 20px;
+    padding: 25px 15px;
+    list-style: none;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    position: relative;
+}
+
+.card p {
+    word-wrap: break-word;
+}
+
+#x {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-weight: bold;
+    cursor: pointer;
 }

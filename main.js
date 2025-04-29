@@ -94,8 +94,8 @@ function noteWindow() {
   // validação (se existir a janela principal)
   if (mainWindow) {
     note = new BrowserWindow({
-      width: 320,
-      height: 230,
+      width: 420,
+      height: 270,
       autoHideMenuBar: true,
       //resizable: false,
       //minimizable: false,

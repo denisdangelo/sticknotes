@@ -60,11 +60,11 @@ api.dbConnect()
             //adição de tags <li> no documento index.html
             list.innerHTML += `
             <br>
-            <li>
-                <p onclick = "deleteNote('${n._id}')" id= "x">X</p>
-                <p>${n._id}</p>
+           <li class="card" style="background-color: var(--${n.cor});">
+                <p onclick="deleteNote('${n._id}')" id="x">X</p>
+                <p id="code">${n._id}</p>
                 <p>${n.texto}</p>
-                <p>${n.cor}</p>
+                <p id="color">${n.cor}</p>
             </li>
             `
         })
