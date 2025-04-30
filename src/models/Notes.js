@@ -1,22 +1,14 @@
-/**
- * Modelo de dados das notas
- * Criação da coleção
- */
+const { model, Schema } = require('mongoose')
 
-// importação dos recursos do moongose
-const {model, Schema} = require('mongoose')
-
-
-//criação da estrutura da criação
 const noteSchema = new Schema({
     texto: {
         type: String
     },
-    cor:{
+    cor: {
         type: String
     }
 
-}, {versionKey: false})
+}, { versionKey: false })
 
-//exportar o modelo de dados para o main
+
 module.exports = model('Notas', noteSchema)

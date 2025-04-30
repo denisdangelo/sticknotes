@@ -3,13 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--metatag para impedir a execução de script externos-->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
-    <!--Titulo da Janela-->
     <title>Sticky Notes</title>
-    <!-- Bootstrap (../ serve para sair da pasta views antes de buscar o caminho) -->
-    <!--  <link rel="stylesheet" href="../public/css/bootstrap.min.css" > -->
-    <!-- CSS personalisado ATENÇÂO!! Sempre depois do css do bootstrap-->
      <link rel="stylesheet" href="../public/css/style.css">
 </head>
 <body>
@@ -19,14 +14,10 @@
     </div>
     
     <footer>
-        <p id="dataAtual"></p>
-        <img src="../public/img/dboff.png" alt="icone do banco de dados desconectado" id="iconeDB">
+        <p id="currentDate"></p>
+        <img src="../public/img/dboff.png" alt="icone do banco de dados desconectado" id="iconDB">
     </footer>
-
-
-    <!-- Bootstrap -->
-    <script src="../public/js/bootstrap.min.js"></script>
-    <!-- Processo de reinderização -->
+    
      <script src="renderer.js"></script>
 </body>
 </html>
